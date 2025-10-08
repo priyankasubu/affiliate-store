@@ -23,8 +23,8 @@
   <select id="category"></select>
   <input id="catinput" type="text" placeholder="Add new category..." />
 
-  <label>Sub-category:</label>
-  <input id="subcategory" type="text" placeholder="Eg: Mobile Phones" />
+  <label>Sub-category (optional):</label>
+  <input id="subcategory" type="text" placeholder="Eg: Samsung, Smartwatch (or leave blank)" />
 
   <button onclick="addProduct()">Add Product</button>
   <div id="status" style="margin-top: 10px;"></div>
@@ -52,9 +52,9 @@
       let subcategory = document.getElementById('subcategory').value.trim();
       if(category==='+ Add New') { category = document.getElementById('catinput').value.trim();}
       const statusDiv = document.getElementById('status');
-      if (!link || !category || !subcategory) {
+      if (!link || !category) {
         statusDiv.style.color = 'red';
-        statusDiv.textContent = 'Please enter link, category and subcategory!';
+        statusDiv.textContent = 'Please enter link and category!';
         return;
       }
       statusDiv.style.color = 'black';
@@ -63,7 +63,7 @@
         const res = await fetch('YOUR_N8N_WEBHOOK_PRODUCTION_URL', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ link, category, subcategory })
+          body: JSON.stringify({ link, category, subcategory }) // subcategory may be ""
         });
         if (res.ok) {
           statusDiv.style.color = 'green';
