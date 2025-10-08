@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button, select { margin: 5px 0; padding: 8px; width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>Admin Panel - Add Product</h1>
+  <label>Affiliate Link:</label>
+  <input id="link" type="text" placeholder="Paste affiliate product link">
+  <label>Category:</label>
+  <input id="category" type="text" placeholder="Ex: Electronics, Fashion...">
+  <button onclick="addProduct()">Add Product</button>
+
+  <script>
+    function addProduct() {
+      const link = document.getElementById('link').value;
+      const category = document.getElementById('category').value;
+      alert('Product link added: ' + link + '\\nCategory: ' + category);
+      // Later we’ll connect this with n8n automation
+    }
+  </script>
+</body>
+</html>
