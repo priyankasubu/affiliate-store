@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin Panel</title>
   <style>
     body { font-family: Arial; padding: 20px; }
@@ -11,18 +11,56 @@
 </head>
 <body>
   <h1>Admin Panel - Add Product</h1>
-  <label>Affiliate Link:</label>
-  <input id="link" type="text" placeholder="Paste affiliate product link">
+  <label>Affiliate Product Link:</label>
+  <input id="link" type="text" placeholder="Paste full affiliate product link here" />
+  
   <label>Category:</label>
-  <input id="category" type="text" placeholder="Ex: Electronics, Fashion...">
+  <input id="category" type="text" placeholder="Main Category (Eg: Electronics)" />
+  
+  <label>Sub Category:</label>
+  <input id="subcategory" type="text" placeholder="Sub Category (Eg: Mobile Phones)" />
+  
   <button onclick="addProduct()">Add Product</button>
+  
+  <div id="status" style="margin-top: 10px;"></div>
 
   <script>
-    function addProduct() {
-      const link = document.getElementById('link').value;
-      const category = document.getElementById('category').value;
-      alert('Product link added: ' + link + '\\nCategory: ' + category);
-      // Later we’ll connect this with n8n automation
+    async function addProduct() {
+      const link = document.getElementById('link').value.trim();
+      const category = document.getElementById('category').value.trim();
+      const subcategory = document.getElementById('subcategory').value.trim();
+      const statusDiv = document.getElementById('status');
+
+      if (!link || !category || !subcategory) {
+        statusDiv.style.color = 'red';
+        statusDiv.textContent = 'Please enter link, category and subcategory!';
+        return;
+      }
+
+      statusDiv.style.color = 'black';
+      statusDiv.textContent = 'Submitting...';
+
+      try {
+        const res = await fetch('YOUR_N8N_WEBHOOK_PRODUCTION_URL', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ link, category, subcategory })
+        });
+
+        if (res.ok) {
+          statusDiv.style.color = 'green';
+          statusDiv.textContent = 'Product successfully added! Wait a minute and refresh main site.';
+          document.getElementById('link').value = '';
+          document.getElementById('category').value = '';
+          document.getElementById('subcategory').value = '';
+        } else {
+          statusDiv.style.color = 'red';
+          statusDiv.textContent = 'Something went wrong! Please try again.';
+        }
+      } catch (e) {
+        statusDiv.style.color = 'red';
+        statusDiv.textContent = 'Failed to connect to automation server!';
+      }
     }
   </script>
 </body>
