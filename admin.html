@@ -9,7 +9,10 @@
     input, button, select { margin: 5px 0; padding: 8px; width: 100%; }
     #catinput { display: none; }
   </style>
-  <script src="categories.js"></script>
+  <script>
+    // If you want categories to be dynamic from products.js, you should update this array via JS automation.
+    const categories = ["Electronics", "Fashion", "Mobiles"];
+  </script>
 </head>
 <body>
   <h1>Admin Panel - Add Product</h1>
@@ -27,6 +30,7 @@
   <div id="status" style="margin-top: 10px;"></div>
 
   <script>
+    // Category dropdown logic
     let cats = (typeof categories!=='undefined' && Array.isArray(categories)) ? categories : [];
     cats.push('+ Add New');
     const sel = document.getElementById('category');
