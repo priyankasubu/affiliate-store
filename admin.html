@@ -7,55 +7,71 @@
   <style>
     body { font-family: Arial; padding: 20px; }
     input, button, select { margin: 5px 0; padding: 8px; width: 100%; }
+    #catinput { display: none; }
   </style>
+  <script src="categories.js"></script>
 </head>
 <body>
   <h1>Admin Panel - Add Product</h1>
   <label>Affiliate Product Link:</label>
-  <input id="link" type="text" placeholder="Paste full affiliate product link here" />
-  
+  <input id="link" type="text" placeholder="Paste affiliate product link here" />
+
   <label>Category:</label>
-  <input id="category" type="text" placeholder="Main Category (Eg: Electronics)" />
-  
-  <label>Sub Category:</label>
-  <input id="subcategory" type="text" placeholder="Sub Category (Eg: Mobile Phones)" />
-  
+  <select id="category"></select>
+  <input id="catinput" type="text" placeholder="Add new category..." />
+
+  <label>Sub-category:</label>
+  <input id="subcategory" type="text" placeholder="Eg: Mobile Phones" />
+
   <button onclick="addProduct()">Add Product</button>
-  
   <div id="status" style="margin-top: 10px;"></div>
 
   <script>
-    async function addProduct() {
-      const link = document.getElementById('link').value.trim();
-      const category = document.getElementById('category').value.trim();
-      const subcategory = document.getElementById('subcategory').value.trim();
-      const statusDiv = document.getElementById('status');
+    let cats = (typeof categories!=='undefined' && Array.isArray(categories)) ? categories : [];
+    cats.push('+ Add New');
+    const sel = document.getElementById('category');
+    cats.forEach(c=>{
+      const o = document.createElement('option');
+      o.value = c; o.text = c; sel.appendChild(o);
+    });
+    sel.onchange = function() {
+      if(sel.value === '+ Add New') {
+        document.getElementById('catinput').style.display='block';
+      } else {
+        document.getElementById('catinput').style.display='none';
+      }
+    }
 
+    async function addProduct() {
+      let link = document.getElementById('link').value.trim();
+      let category = sel.value;
+      let subcategory = document.getElementById('subcategory').value.trim();
+      if(category==='+ Add New') { category = document.getElementById('catinput').value.trim();}
+      const statusDiv = document.getElementById('status');
       if (!link || !category || !subcategory) {
         statusDiv.style.color = 'red';
         statusDiv.textContent = 'Please enter link, category and subcategory!';
         return;
       }
-
       statusDiv.style.color = 'black';
       statusDiv.textContent = 'Submitting...';
-
       try {
         const res = await fetch('YOUR_N8N_WEBHOOK_PRODUCTION_URL', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ link, category, subcategory })
         });
-
         if (res.ok) {
           statusDiv.style.color = 'green';
-          statusDiv.textContent = 'Product successfully added! Wait a minute and refresh main site.';
+          statusDiv.textContent = 'Product successfully added! Wait and refresh main site.';
           document.getElementById('link').value = '';
-          document.getElementById('category').value = '';
+          if(sel.value !== '+ Add New') sel.selectedIndex=0;
           document.getElementById('subcategory').value = '';
+          document.getElementById('catinput').value = '';
+          document.getElementById('catinput').style.display='none';
         } else {
           statusDiv.style.color = 'red';
-          statusDiv.textContent = 'Something went wrong! Please try again.';
+          statusDiv.textContent = 'Error occurred! Try again.';
         }
       } catch (e) {
         statusDiv.style.color = 'red';
