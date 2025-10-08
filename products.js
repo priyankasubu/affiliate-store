@@ -5,7 +5,6 @@ const products = [
     image: "https://via.placeholder.com/250",
     link: "#",
     category: "Mobiles",
-    subcategory: "Smartphones"
+    subcategory: ""      // If unavailable, leave as "", do not remove key
   }
 ];
-// Rendering moved to index.html's script for best practice!
