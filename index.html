@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Affiliate Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #fafafa; }
+    header { text-align: center; margin-bottom: 20px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .product { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .product img { width: 100%; border-radius: 10px; }
+    .product h3 { font-size: 18px; }
+    .product p { font-size: 14px; color: #555; }
+    .product a { display: inline-block; background: #007bff; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Affiliate Store</h1>
+    <p>Latest affiliate deals from Amazon, Flipkart, Meesho & more!</p>
+  </header>
+  <main class="product-grid" id="products"></main>
+
+  <script src="products.js"></script>
+</body>
+</html>
