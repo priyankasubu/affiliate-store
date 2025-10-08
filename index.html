@@ -11,9 +11,11 @@
     .product { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .product img { width: 100%; border-radius: 10px; }
     .product h3 { font-size: 18px; }
-    .product p { font-size: 14px; color: #555; }
+    .product p { font-size: 14px; color: #555; margin: 3px 0;}
+    .product .meta { font-size:12px; color: #999;}
     .product a { display: inline-block; background: #007bff; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; margin-top: 10px; }
   </style>
+  <script src="products.js"></script>
 </head>
 <body>
   <header>
@@ -21,7 +23,19 @@
     <p>Latest affiliate deals from Amazon, Flipkart, Meesho & more!</p>
   </header>
   <main class="product-grid" id="products"></main>
-
-  <script src="products.js"></script>
+  <script>
+    const container = document.getElementById("products");
+    products.forEach(p => {
+      container.innerHTML += `
+        <div class="product">
+          <img src="${p.image}" alt="${p.title}">
+          <div class="meta">${p.category ? "Category: " + p.category : ""}${p.subcategory ? " | Sub: " + p.subcategory : ""}</div>
+          <h3>${p.title}</h3>
+          <p>${p.price}</p>
+          <a href="${p.link}" target="_blank">Buy Now</a>
+        </div>
+      `;
+    });
+  </script>
 </body>
 </html>
