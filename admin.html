@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin Panel</title>
+  <title>Admin Panel - Add Product</title>
   <style>
     body { font-family: Arial; padding: 20px; }
     input, button, select { margin: 5px 0; padding: 8px; width: 100%; }
@@ -31,6 +31,7 @@
   <div id="status" style="margin-top: 10px;"></div>
 
   <script>
+    // Populate categories with dropdown and "Add New"
     let cats = (typeof categories!=='undefined' && Array.isArray(categories)) ? categories : [];
     cats.push('+ Add New');
     const sel = document.getElementById('category');
@@ -46,6 +47,7 @@
       }
     }
 
+    // The only code you need to send data!
     async function addProduct() {
       let link = document.getElementById('link').value.trim();
       let selectedCat = sel.value;
@@ -61,20 +63,24 @@
       statusDiv.style.color = 'black';
       statusDiv.textContent = 'Submitting...';
       try {
-        const webhookUrl = 'YOUR_N8N_PRODUCTION_WEBHOOK'; // Replace with production URL
-        const res = await fetch(webhookUrl, {
+        // <<<<<--- PUT YOUR n8n PRODUCTION WEBHOOK URL BELOW
+        const res = await fetch('https://kdaft.app.n8n.cloud/webhook/affiliate-add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ link, category, subcategory })
+          body: JSON.stringify({
+            link: link,
+            category: category,
+            subcategory: subcategory
+          })
         });
         if (res.ok) {
           statusDiv.style.color = 'green';
           statusDiv.textContent = 'Product successfully added! Wait and refresh main site.';
           document.getElementById('link').value = '';
-          sel.selectedIndex=0;
           document.getElementById('subcategory').value = '';
           document.getElementById('catinput').value = '';
           document.getElementById('catinput').style.display='none';
+          sel.selectedIndex = 0;
         } else {
           statusDiv.style.color = 'red';
           statusDiv.textContent = 'Error occurred! Try again.';
