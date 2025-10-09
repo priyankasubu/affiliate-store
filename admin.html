@@ -31,7 +31,6 @@
   <div id="status" style="margin-top: 10px;"></div>
 
   <script>
-    // Populate dropdown
     let cats = (typeof categories!=='undefined' && Array.isArray(categories)) ? categories : [];
     cats.push('+ Add New');
     const sel = document.getElementById('category');
@@ -39,8 +38,6 @@
       const o = document.createElement('option');
       o.value = c; o.text = c; sel.appendChild(o);
     });
-
-    // Change event: Show/hide input for "Add New"
     sel.onchange = function() {
       if (sel.value === '+ Add New') {
         document.getElementById('catinput').style.display='block';
@@ -64,7 +61,7 @@
       statusDiv.style.color = 'black';
       statusDiv.textContent = 'Submitting...';
       try {
-        const res = await fetch('YOUR_N8N_WEBHOOK_PRODUCTION_URL', {
+        const res = await fetch('https://kdaft.app.n8n.cloud/webhook/affiliate-add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ link, category, subcategory })
