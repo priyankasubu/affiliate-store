@@ -10,7 +10,6 @@
     #catinput { display: none; }
   </style>
   <script>
-    // If you want categories to be dynamic from products.js, you should update this array via JS automation.
     const categories = ["Electronics", "Fashion", "Mobiles"];
   </script>
 </head>
@@ -30,7 +29,6 @@
   <div id="status" style="margin-top: 10px;"></div>
 
   <script>
-    // Category dropdown logic
     let cats = (typeof categories!=='undefined' && Array.isArray(categories)) ? categories : [];
     cats.push('+ Add New');
     const sel = document.getElementById('category');
@@ -61,27 +59,4 @@
       statusDiv.textContent = 'Submitting...';
       try {
         const res = await fetch('YOUR_N8N_WEBHOOK_PRODUCTION_URL', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ link, category, subcategory }) // subcategory may be ""
-        });
-        if (res.ok) {
-          statusDiv.style.color = 'green';
-          statusDiv.textContent = 'Product successfully added! Wait and refresh main site.';
-          document.getElementById('link').value = '';
-          if(sel.value !== '+ Add New') sel.selectedIndex=0;
-          document.getElementById('subcategory').value = '';
-          document.getElementById('catinput').value = '';
-          document.getElementById('catinput').style.display='none';
-        } else {
-          statusDiv.style.color = 'red';
-          statusDiv.textContent = 'Error occurred! Try again.';
-        }
-      } catch (e) {
-        statusDiv.style.color = 'red';
-        statusDiv.textContent = 'Failed to connect to automation server!';
-      }
-    }
-  </script>
-</body>
-</html>
+          method: 'POST
