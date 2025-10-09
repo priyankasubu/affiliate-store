@@ -31,7 +31,7 @@
   <div id="status" style="margin-top: 10px;"></div>
 
   <script>
-    // Populate categories with dropdown and "Add New"
+    // Dropdown + Add New
     let cats = (typeof categories!=='undefined' && Array.isArray(categories)) ? categories : [];
     cats.push('+ Add New');
     const sel = document.getElementById('category');
@@ -47,23 +47,26 @@
       }
     }
 
-    // The only code you need to send data!
+    // Main Add Product Handler
     async function addProduct() {
-      let link = document.getElementById('link').value.trim();
-      let selectedCat = sel.value;
-      let newCat = document.getElementById('catinput').value.trim();
-      let category = (selectedCat === '+ Add New') ? newCat : selectedCat;
-      let subcategory = document.getElementById('subcategory').value.trim();
+      const link = document.getElementById('link').value.trim();
+      const selectedCat = sel.value;
+      const newCat = document.getElementById('catinput').value.trim();
+      const category = (selectedCat === '+ Add New') ? newCat : selectedCat;
+      const subcategory = document.getElementById('subcategory').value.trim();
       const statusDiv = document.getElementById('status');
+
       if (!link || !category) {
         statusDiv.style.color = 'red';
         statusDiv.textContent = 'Please enter link and category!';
         return;
       }
+
       statusDiv.style.color = 'black';
       statusDiv.textContent = 'Submitting...';
+
       try {
-        // <<<<<--- PUT YOUR n8n PRODUCTION WEBHOOK URL BELOW
+        // ONLY EDIT THIS LINE (put your n8n PRODUCTION URL)
         const res = await fetch('https://kdaft.app.n8n.cloud/webhook/affiliate-add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -79,7 +82,7 @@
           document.getElementById('link').value = '';
           document.getElementById('subcategory').value = '';
           document.getElementById('catinput').value = '';
-          document.getElementById('catinput').style.display='none';
+          document.getElementById('catinput').style.display = 'none';
           sel.selectedIndex = 0;
         } else {
           statusDiv.style.color = 'red';
