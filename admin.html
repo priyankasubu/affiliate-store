@@ -61,7 +61,8 @@
       statusDiv.style.color = 'black';
       statusDiv.textContent = 'Submitting...';
       try {
-        const res = await fetch('https://kdaft.app.n8n.cloud/webhook/affiliate-add', {
+        const webhookUrl = 'YOUR_N8N_PRODUCTION_WEBHOOK'; // Replace with production URL
+        const res = await fetch(webhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ link, category, subcategory })
